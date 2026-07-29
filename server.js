@@ -77,7 +77,7 @@ app.post('/api/tracks/upload', upload.single('audio'), async (req, res) => {
     res.status(201).json(serializeTrack(rows[0]));
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Upload failed', details: err.message });
+    res.status(500).json({ error: err.message || 'Upload failed', details: err.message });
   }
 });
 
@@ -129,7 +129,7 @@ app.post('/api/albums', upload.single('cover'), async (req, res) => {
     res.status(201).json(serializeAlbum(rows[0]));
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Album creation failed', details: err.message });
+    res.status(500).json({ error: err.message || 'Album creation failed', details: err.message });
   }
 });
 
