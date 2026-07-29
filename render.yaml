@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: rbeatz-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: B2_ENDPOINT
+        sync: false
+      - key: B2_KEY_ID
+        sync: false
+      - key: B2_APPLICATION_KEY
+        sync: false
+      - key: B2_BUCKET_NAME
+        sync: false
+      - key: B2_PUBLIC_URL
+        sync: false
+      - key: CREATOR_EMAIL
+        value: rbeatz44@gmail.com
+      - key: CREATOR_PASSWORD
+        sync: false
