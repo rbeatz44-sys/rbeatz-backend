@@ -57,9 +57,13 @@ function setupAudioContext() {
       f.type = b.type; f.frequency.value = b.freq; f.gain.value = eqGains[i];
       eqFilters.push(f);
     });
+    // Loudness boost — phones/native players apply automatic volume enhancement
+    // that browsers don't, so beats can sound quieter on the website. This compensates.
+    const boost = audioCtx.createGain();
+    boost.gain.value = 1.8;
     let prev = source;
     eqFilters.forEach(f => { prev.connect(f); prev = f; });
-    prev.connect(analyser); analyser.connect(audioCtx.destination);
+    prev.connect(boost); boost.connect(analyser); analyser.connect(audioCtx.destination);
   } catch(e) { console.warn('AudioContext unavailable', e); }
 }
 
@@ -436,8 +440,7 @@ function renderNowPlaying(){
 function playTrack(id){
   const t=tracks.find(t=>t.id===id);
   if(!t||!t.objectPath){alert('This track file is not available in this session. Please re-upload it from the Dashboard.');return;}
-  setupAudioContext();
-  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
+  // Native playback only — no Web Audio routing, guarantees reliable sound on every device
   if(currentTrackId===id){isPlaying?audio.pause():audio.play();isPlaying=!isPlaying;}
   else{currentTrackId=id;audio.src=t.objectPath;audio.play().catch(()=>{});isPlaying=true;}
   audio.loop=isLooping;
@@ -521,27 +524,15 @@ async function deleteAlbum(id){
   } catch(e){ alert('Failed to delete album: '+e.message); }
 }
 
-// ─── EQ ──────────────────────────────────────────────────────────────────────
+// ─── EQ (temporarily disabled for playback reliability) ──────────────────────
 function toggleEQ(){
-  const panel=document.getElementById('eq-panel');
-  panel.classList.toggle('open');
-  document.getElementById('eq-toggle-btn').classList.toggle('active',panel.classList.contains('open'));
+  alert('The equalizer is temporarily unavailable while we ensure reliable playback across all devices. Coming back soon!');
 }
-function resetEQ(){eqGains=[0,0,0,0,0];eqFilters.forEach(f=>{f.gain.value=0;});renderEQBands();}
+function resetEQ(){}
 function renderEQBands(){
-  document.getElementById('eq-bands').innerHTML=EQ_BANDS.map((band,i)=>`
-    <div class="eq-band">
-      <span class="eq-val" id="eq-val-${i}" style="color:${eqGains[i]>0?'var(--primary-bright)':eqGains[i]<0?'var(--secondary)':'var(--muted)'}">${eqGains[i]>0?'+':''}${eqGains[i]}</span>
-      <input type="range" class="eq-slider-vert" min="-12" max="12" step="1" value="${eqGains[i]}" oninput="setEQ(${i},parseInt(this.value))" />
-      <span class="eq-band-label">${band.label}</span>
-    </div>`).join('');
+  document.getElementById('eq-bands').innerHTML = '<p style="color:var(--muted);font-size:.8rem;text-align:center;padding:12px 0">Equalizer coming soon</p>';
 }
-function setEQ(i,val){
-  eqGains[i]=val;if(eqFilters[i])eqFilters[i].gain.value=val;
-  const el=document.getElementById(`eq-val-${i}`);
-  el.textContent=(val>0?'+':'')+val;
-  el.style.color=val>0?'var(--primary-bright)':val<0?'var(--secondary)':'var(--muted)';
-}
+function setEQ(){}
 renderEQBands();
 
 // ─── Visualizer ──────────────────────────────────────────────────────────────
