@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Relebogile Phatudi — RP-Rbeatz44. Independent producer crafting dark, cinematic beats." />
+<title>Relebogile Phatudi | RP-Rbeatz44</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
+
+<!-- ─── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <h1 class="nav-logo glitch-logo" data-text="RBEATZ">RB<span class="logo-euro">€</span>ATZ</h1>
+    <div class="nav-links">
+      <a href="#music">Music</a>
+      <a href="#about">About</a>
+      <a href="#book">Book</a>
+      <a href="#dashboard" id="dash-nav-link" class="hidden" style="color:var(--accent)">Dashboard</a>
+    </div>
+    <div class="nav-right">
+      <span class="badge badge-accent hidden" id="creator-badge">Creator</span>
+      <button class="btn btn-ghost hidden" id="signout-btn" onclick="signOut()">Sign out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- SECRET LOGIN TRIGGER — press Ctrl+Shift+L to open -->
+
+<!-- ─── HERO ── -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-line hero-line-l"></div>
+      <span>Relebogile Phatudi · Official</span>
+      <div class="hero-line hero-line-r"></div>
+    </div>
+    <h2 class="hero-title">THE SOUND<br><span class="glow">OF RB€ATZ</span></h2>
+    <p class="hero-sub">Dark, cinematic beats for artists who want to leave a mark.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary btn-lg" onclick="document.getElementById('music').scrollIntoView({behavior:'smooth'})">Listen Now</button>
+      <button class="btn btn-outline btn-lg" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">Book / Collab</button>
+    </div>
+  </div>
+  <div class="hero-bars" id="hero-bars"></div>
+</section>
+
+<!-- ─── MUSIC ── -->
+<section id="music" class="section section-dark">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="badge badge-primary mb-4" style="display:inline-flex">Latest Drops</span>
+      <h3 class="section-title">Featured Music</h3>
+    </div>
+    <div id="music-content">
+      <div class="empty-state">
+        <div style="font-size:2rem;margin-bottom:16px;opacity:.5">🎵</div>
+        <p>No tracks dropped yet — check back soon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NOW PLAYING ── -->
+<section id="now-playing">
+  <div class="now-playing-inner">
+    <div class="vinyl-wrap">
+      <div class="vinyl-ring"></div><div class="vinyl-ring"></div><div class="vinyl-ring"></div>
+      <div class="vinyl-disc">
+        <div class="vinyl-bg" id="vinyl-bg"></div>
+        <div class="vinyl-center"><div class="vinyl-dot"></div></div>
+      </div>
+    </div>
+    <div class="now-info">
+      <span class="badge mb-4" id="now-genre" style="display:inline-flex"></span>
+      <h4 style="font-family:var(--font-display);font-size:2rem;font-weight:700;margin-bottom:8px" id="now-title"></h4>
+      <p style="color:var(--muted);font-size:1.1rem;margin-bottom:32px" id="now-meta"></p>
+      <div class="now-controls">
+        <button class="btn btn-ghost btn-icon" onclick="skipTrack(-1)">
+          <svg style="width:24px;height:24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+        </button>
+        <button class="play-btn-lg" onclick="toggleCurrentTrack()">
+          <svg style="width:28px;height:28px" id="now-play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="white"/></svg>
+        </button>
+        <button class="btn btn-ghost btn-icon" onclick="skipTrack(1)">
+          <svg style="width:24px;height:24px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DASHBOARD (creator only) ── -->
+<section id="dashboard" class="section section-dark">
+  <div class="section-inner">
+    <div class="section-header">
+      <h3 class="section-title" style="color:var(--accent)">Studio Dashboard</h3>
+      <p class="text-muted mt-4">Upload singles or full albums. Tracks are saved and visible to all visitors.</p>
+    </div>
+    <div class="dash-tabs">
+      <button class="dash-tab active" id="tab-track" onclick="switchTab('track')">
+        <svg style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        Upload Single Track
+      </button>
+      <button class="dash-tab" id="tab-album" onclick="switchTab('album')">
+        <svg style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+        Upload Album
+      </button>
+    </div>
+    <div class="dash-grid">
+      <div>
+        <!-- Single track -->
+        <div id="panel-track">
+          <div id="upload-zone-wrap">
+            <div class="upload-zone">
+              <label class="upload-inner" for="audio-file-input" style="cursor:pointer">
+                <div class="upload-icon">🎵</div>
+                <h4 style="font-size:1.2rem;font-weight:700;margin-bottom:8px">Drop a new beat</h4>
+                <p class="text-muted" style="font-size:.875rem;text-align:center;max-width:320px;margin-bottom:24px">WAV, MP3, FLAC and more.</p>
+                <span class="btn btn-outline" style="pointer-events:none">Select File</span>
+              </label>
+              <input type="file" id="audio-file-input" accept="audio/*" class="hidden" onchange="handleAudioFile(this)" />
+              <div class="upload-progress hidden" id="upload-progress-overlay">
+                <p style="font-weight:700;color:var(--primary)">Processing beat…</p>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" id="upload-progress-bar" style="width:0%"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="meta-form hidden" id="track-meta-form" style="margin-top:16px">
+            <h4 style="font-size:1.1rem;font-weight:700;margin-bottom:16px">Track Details</h4>
+            <div class="form-group">
+              <label class="form-label">Title</label>
+              <input class="form-input" id="meta-title" placeholder="Track title" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Genre</label>
+                <input class="form-input" id="meta-genre" placeholder="e.g. Trap" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">BPM (optional)</label>
+                <input class="form-input" id="meta-bpm" type="number" placeholder="140" />
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:8px">
+              <button class="btn btn-primary" style="flex:1;height:44px" onclick="saveTrack()">Drop Track</button>
+              <button class="btn btn-outline" onclick="cancelMeta()">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <!-- Album -->
+        <div id="panel-album" class="hidden">
+          <div class="meta-form mb-6">
+            <h4 style="font-size:1.1rem;font-weight:700;margin-bottom:16px">Album Info</h4>
+            <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:16px">
+              <label style="cursor:pointer;flex-shrink:0">
+                <input type="file" accept="image/*" class="hidden" id="cover-input" onchange="handleCover(this)" />
+                <div id="cover-preview" style="width:96px;height:96px;border-radius:12px;border:2px dashed rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);overflow:hidden;font-size:1.5rem" title="Click to upload cover art">🎨</div>
+              </label>
+              <div style="flex:1">
+                <div class="form-group"><label class="form-label">Album Title *</label><input class="form-input" id="album-title" placeholder="e.g. Dark Frequencies Vol. 1" /></div>
+                <div class="form-group"><label class="form-label">Release Year</label><input class="form-input" id="album-year" type="number" placeholder="2025" style="max-width:120px" /></div>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="album-desc" placeholder="Short description…" style="min-height:72px"></textarea></div>
+          </div>
+          <div class="meta-form mb-6">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+              <h4 style="font-size:1.1rem;font-weight:700">Tracks (<span id="album-track-count">0</span>)</h4>
+              <label style="cursor:pointer"><input type="file" accept="audio/*" multiple class="hidden" onchange="handleAlbumTracks(this)" /><span class="btn btn-outline" style="font-size:.8rem;height:32px;padding:0 12px;pointer-events:none">+ Add Tracks</span></label>
+            </div>
+            <div id="album-track-list">
+              <label style="cursor:pointer;display:block"><input type="file" accept="audio/*" multiple class="hidden" onchange="handleAlbumTracks(this)" /><div style="border:2px dashed rgba(255,255,255,0.1);border-radius:12px;padding:32px;text-align:center;color:var(--muted)"><div style="font-size:1.5rem;margin-bottom:8px;opacity:.5">🎵</div><p style="font-size:.875rem">Click to add tracks</p></div></label>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;height:48px;font-size:1rem;font-weight:700" onclick="publishAlbum()">Publish Album</button>
+        </div>
+      </div>
+      <div>
+        <div class="stats-card">
+          <h4>Quick Stats</h4>
+          <div><div class="stat-big" id="stat-tracks">0</div><div class="stat-small">Total Tracks</div></div>
+          <div class="divider"></div>
+          <div><div class="stat-big" id="stat-albums">0</div><div class="stat-small">Albums</div></div>
+        </div>
+        <div class="stats-card" style="margin-top:16px">
+          <h4>✅ Permanent Storage</h4>
+          <p style="font-size:.75rem;color:var(--muted);line-height:1.6">Tracks and albums are saved permanently on the server. Every visitor, on every device, will see your uploads.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social links -->
+    <div style="margin-top:48px;border-top:1px solid rgba(255,255,255,0.05);padding-top:40px">
+      <h4 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:4px"><span style="color:var(--accent)">◆</span> Social Links</h4>
+      <p style="font-size:.875rem;color:var(--muted);margin-bottom:24px">Update your social media links shown in the footer.</p>
+      <div class="social-grid">
+        <div><div class="social-label">📸 Instagram</div><input class="form-input" id="social-ig" value="https://instagram.com/rbeatz44" /></div>
+        <div><div class="social-label">▶ YouTube</div><input class="form-input" id="social-yt" value="https://youtube.com/@Rbeatz-08" /></div>
+        <div><div class="social-label">♪ TikTok</div><input class="form-input" id="social-tt" value="https://tiktok.com/@rbeatz6" /></div>
+      </div>
+      <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+        <button class="btn btn-primary" style="height:40px" onclick="saveSocials()">Save Links</button>
+        <span id="socials-saved" class="hidden" style="font-size:.875rem;color:#4ade80;font-weight:500">✓ Saved!</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ── -->
+<section id="about" class="section section-card">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img">🔊<div class="about-img-grid"></div></div>
+      <div>
+        <span class="badge mb-4" style="display:inline-flex;background:rgba(255,215,0,0.1);border-color:rgba(255,215,0,0.3);color:var(--accent)">INDEPENDENT</span>
+        <h3 class="section-title mb-6">Who Is Rbeatz?</h3>
+        <p style="font-size:1.05rem;color:var(--muted);margin-bottom:16px;line-height:1.7">Relebogile Phatudi — known as RP-Rbeatz44 — started in a bedroom studio with a vision. Today he's producing for the next wave of underground talent across multiple genres.</p>
+        <p style="font-size:1.05rem;color:var(--muted);margin-bottom:24px;line-height:1.7">From hard-hitting Trap and Drill to smooth Afrobeats, hypnotic Amapiano, and raw Hip-Hop — dark melodies, heavy 808s, and meticulous sound design define the Rbeatz signature.</p>
+        <div class="about-tags">
+          <span class="genre-tag">Trap</span><span class="genre-tag">Drill</span><span class="genre-tag">Hip-Hop</span><span class="genre-tag">Afrobeats</span><span class="genre-tag">Amapiano</span>
+        </div>
+        <div class="about-stats">
+          <div><div class="stat-val">5+</div><div class="stat-label">Years Active</div></div>
+          <div><div class="stat-val">5+</div><div class="stat-label">Genres</div></div>
+          <div><div class="stat-val">100%</div><div class="stat-label">Independent</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BOOK ── -->
+<section id="book" class="section section-dark book-section">
+  <div class="book-glow"></div>
+  <div class="section-inner" style="max-width:560px;text-align:center;position:relative;z-index:1">
+    <h3 class="section-title mb-4">Reach Out / Book</h3>
+    <p class="text-muted" style="margin-bottom:48px">Custom beats, mixing, collab, or promotion? Drop a line directly to Relebogile.</p>
+    <div class="card">
+      <div class="card-body" id="booking-form-wrap">
+        <div class="form-group">
+          <label class="form-label" style="text-align:left;display:block">What do you need?</label>
+          <div class="purpose-grid">
+            <button class="purpose-btn active" data-val="collab" onclick="setPurpose(this)">🎤 Collab</button>
+            <button class="purpose-btn" data-val="custom-beat" onclick="setPurpose(this)">🎵 Custom Beat</button>
+            <button class="purpose-btn" data-val="promote" onclick="setPurpose(this)">📣 Promote</button>
+            <button class="purpose-btn" data-val="other" onclick="setPurpose(this)">💬 Other</button>
+          </div>
+        </div>
+        <!-- Web3Forms — sends directly to rbeatz44@gmail.com, no spam-holding -->
+        <form id="booking-form" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleBookingSubmit(event)">
+          <input type="hidden" name="access_key" value="3c3cf6a0-22b6-4d7d-b7a0-661ed82d0ef3" />
+          <input type="hidden" name="subject" value="New booking request — RP-Rbeatz44 Website" />
+          <input type="hidden" name="from_name" value="RP-Rbeatz44 Website" />
+          <input type="hidden" name="purpose" id="form-purpose" value="collab" />
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Name / Artist Name</label>
+              <input class="form-input" name="name" id="book-name" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" name="email" id="book-email" type="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-input" name="message" id="book-msg" placeholder="Tell Relebogile what you're working on…" required></textarea>
+          </div>
+          <button class="socials-toggle" type="button" onclick="toggleBookSocials()">▶ Add your social media links <span class="text-muted">(optional)</span></button>
+          <div class="socials-panel" id="book-socials">
+            <p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Add any platforms you want Relebogile to check out</p>
+            <div class="form-group"><label class="form-label">Instagram</label><input class="form-input" name="instagram" id="book-ig" placeholder="@yourhandle" /></div>
+            <div class="form-group"><label class="form-label">TikTok</label><input class="form-input" name="tiktok" id="book-tt" placeholder="@yourhandle" /></div>
+            <div class="form-group"><label class="form-label">YouTube</label><input class="form-input" name="youtube" id="book-yt" placeholder="youtube.com/@yourname" /></div>
+            <div class="form-group"><label class="form-label">Twitter / X</label><input class="form-input" name="twitter" id="book-tw" placeholder="@yourhandle" /></div>
+            <div class="form-group"><label class="form-label">SoundCloud</label><input class="form-input" name="soundcloud" id="book-sc" placeholder="soundcloud.com/yourname" /></div>
+            <div class="form-group"><label class="form-label">Other Links</label><input class="form-input" name="other_links" id="book-other" placeholder="Spotify, BeatStars, website…" /></div>
+          </div>
+          <p id="booking-error" class="error-msg hidden"></p>
+          <button class="submit-btn" type="submit" id="booking-submit-btn">Send Message to Relebogile</button>
+        </form>
+      </div>
+      <div class="success-state hidden" id="booking-success">
+        <div class="success-icon">✅</div>
+        <h4 style="font-size:1.2rem;font-weight:700;margin-bottom:8px">Message Sent!</h4>
+        <p class="text-muted" style="margin-bottom:24px">Relebogile will get back to you at rbeatz44@gmail.com soon.</p>
+        <button class="btn btn-outline" onclick="resetBooking()">Send another</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ── -->
+<footer>
+  <h2 class="footer-logo glitch-logo" data-text="RBEATZ">RB<span class="logo-euro">€</span>ATZ</h2>
+  <p style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--fg);margin-bottom:4px">Relebogile Phatudi</p>
+  <p class="footer-sub">Independent Producer · Crafting dark, cinematic beats</p>
+  <div class="footer-socials">
+    <a class="social-link active" id="footer-ig" href="https://instagram.com/rbeatz44" target="_blank" rel="noopener">
+      <div class="social-icon-wrap">📸</div><span class="social-link-label">Instagram</span>
+    </a>
+    <a class="social-link active" id="footer-yt" href="https://youtube.com/@Rbeatz-08" target="_blank" rel="noopener">
+      <div class="social-icon-wrap">▶</div><span class="social-link-label">YouTube</span>
+    </a>
+    <a class="social-link active" id="footer-tt" href="https://tiktok.com/@rbeatz6" target="_blank" rel="noopener">
+      <div class="social-icon-wrap">♪</div><span class="social-link-label">TikTok</span>
+    </a>
+  </div>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">© <span id="year"></span> Relebogile Phatudi — RP-Rbeatz44 Music. All rights reserved.</p>
+</footer>
+
+<!-- ─── SECRET LOGIN MODAL (Ctrl+Shift+L) ── -->
+<div id="login-modal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeLogin()">✕</button>
+    <div class="modal-body">
+      <div class="modal-icon">🔒</div>
+      <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;text-align:center;margin-bottom:4px">CREATOR ACCESS</h2>
+      <p class="text-muted" style="text-align:center;font-size:.875rem;margin-bottom:24px">Authorized personnel only.</p>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="login-email" type="email" placeholder="Email" /></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="login-password" type="password" placeholder="Password" /></div>
+      <p id="login-error" class="error-msg hidden">Invalid credentials</p>
+      <button class="submit-btn" style="margin-top:8px" onclick="doLogin()">Enter Studio</button>
+      <div style="text-align:center;margin-top:16px">
+        <button onclick="closeLogin()" style="font-size:.875rem;color:var(--muted);background:none;border:none;text-decoration:underline;text-underline-offset:4px">Back to site</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── STICKY PLAYER ── -->
+<div id="sticky-player">
+  <div id="eq-panel">
+    <div class="eq-header">
+      <span class="eq-title">Equalizer</span>
+      <button class="eq-reset" onclick="resetEQ()">↺ Reset</button>
+    </div>
+    <div class="eq-bands" id="eq-bands"></div>
+  </div>
+  <div class="seek-bar" id="seek-bar" onclick="seekTo(event)">
+    <div class="seek-fill" id="seek-fill" style="width:0%"></div>
+    <div class="seek-thumb" id="seek-thumb" style="left:0%"></div>
+  </div>
+  <div class="player-bar">
+    <div class="vinyl-mini"><div class="vinyl-mini-disc" id="vinyl-mini-disc"></div><div class="vinyl-mini-center"></div></div>
+    <div class="player-track-info"><div class="player-title" id="player-title">—</div><div class="player-genre" id="player-genre"></div></div>
+    <div class="player-controls">
+      <button class="ctrl-btn" id="shuffle-btn" onclick="toggleShuffle()" title="Shuffle">
+        <svg style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+      </button>
+      <button class="ctrl-btn" onclick="skipTrack(-1)" title="Previous">
+        <svg style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+      </button>
+      <div class="play-pulse">
+        <div class="pulse-ring hidden" id="pulse1"></div>
+        <div class="pulse-ring pulse-ring2 hidden" id="pulse2"></div>
+        <button class="play-btn-player" onclick="toggleCurrentTrack()" title="Play / Pause">
+          <svg style="width:20px;height:20px" id="player-play-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="white"/></svg>
+        </button>
+      </div>
+      <button class="ctrl-btn" onclick="skipTrack(1)" title="Next">
+        <svg style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+      </button>
+      <button class="ctrl-btn" id="loop-btn" onclick="toggleLoop()" title="Loop">
+        <svg style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </button>
+    </div>
+    <div class="player-right">
+      <span class="time-display" id="time-display">0:00 / 0:00</span>
+      <canvas id="visualizer-canvas" width="90" height="32"></canvas>
+      <button class="ctrl-btn" id="eq-toggle-btn" onclick="toggleEQ()" title="Equalizer">
+        <svg style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+      </button>
+      <svg style="width:16px;height:16px;color:var(--muted)" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      <input type="range" class="vol-slider" min="0" max="1" step="0.01" value="1" oninput="setVolume(this.value)" title="Volume" />
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
